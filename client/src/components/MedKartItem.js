@@ -17,7 +17,7 @@ const MedKartItem = observer(({diagnoz1}) => {
     const {preparat} = useContext(Context)
     const [isLoading, setIsLoading] = useState(false)
     const [preps1, setPreps1] = useState([])
-
+    console.log('')
     useEffect( () => {
         if (diagnoz1 !== undefined) {
             fetchOnePreparat_diagnoses(diagnoz1.id).then(data => {
