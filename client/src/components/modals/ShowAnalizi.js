@@ -5,7 +5,7 @@ import {createZapic} from "../../http/zapicAPI";
 import {Context} from "../../index";
 import AnaliziList from "../AnaliziList";
 
-const ShowAnalizi = ({show, onHide}) => {
+const ShowAnalizi = ({show, onHide, analizi1}) => {
     const {vrach} = useContext(Context)
     const {pacient} = useContext(Context)
 
@@ -28,7 +28,7 @@ const ShowAnalizi = ({show, onHide}) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <AnaliziList/>
+                <AnaliziList analizi1={analizi1}/>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="outline-danger" onClick={onHide}>Закрыть</Button>

@@ -43,7 +43,7 @@ const ZapisiVrachItem = ({zapic1}) => {
         setOtchestvo(data.otchestvo)
         setNomer(data.nomer_telefona)
     }
-
+    const [preps1, setPreps1] = useState([])
     useEffect(() => {
         fetchPacientId(zapic1.PacientId).then(data => {
             setPacient(data).then()
@@ -57,12 +57,15 @@ const ZapisiVrachItem = ({zapic1}) => {
             setDataLength(data.length)
             for (let i = 0; i < data.length; i++){
                 fetchAnalizi(data[i].AnalyAsisId).then(data1 => {
-                    analizi.setAnalizis(data1, i)
+                    console.log(data1)
+                    setPreps1(oldArray => [...oldArray, data1])
+                    console.log(preps1)
                 })
             }
 
 
 
+            analizi.setAnalizis(preps1)
             setIsloading(true)
         })
     }, [])
@@ -107,7 +110,7 @@ const ZapisiVrachItem = ({zapic1}) => {
                 >Сделать отчет</Button></div>
             </Card><br/>
             <CreateOtchet show={otchetVisible} onHide={() => setotchetVisible(false)} />
-            {isLoading ? <ShowAnalizi show={analiziVisible} onHide={() => setAnaliziVisible(false)} />: ''}
+            {isLoading ? <ShowAnalizi analizi1={preps1} show={analiziVisible} onHide={() => setAnaliziVisible(false)} />: ''}
 
         </Container>
     );

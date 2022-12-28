@@ -15,6 +15,7 @@ const AnaliziItem = ({analizi1}) => {
     const [imya, setImya] = useState('')
     const [othcestvo, setOtchestvo] = useState('')
     const [analiziVisible, setAnaliziVisible] = useState(false)
+    console.log(analizi1)
 
     return (
         <Container className="mt-1">

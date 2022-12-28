@@ -49,7 +49,8 @@ const NavBar = observer(() => {
     useEffect(() => {
         /* Переработать чтобы не имя заносилось а айди */
         let Limit = 1
-        fetchDolznost({}).then(data => {dolznost.setDolznosts(data)})
+        fetchDolznost({}).then(data => {dolznost.setDolznosts(data);
+            console.log(data)})
         fetchDolznost({Limit}).then(data => {dolznost.setName(data[0].name)})
         fetchOtdelenies({}).then(data => {otdelenie.setOtledenies(data)})
         fetchOtdelenies({Limit}).then(data => {otdelenie.setName(data[0].name)})

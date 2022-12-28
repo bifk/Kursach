@@ -16,8 +16,8 @@ export default class AnaliziStore {
         return this._analizisP
     }
 
-    setAnalizis(analizis, i){
-        this._analizis[i] = analizis
+    setAnalizis(analizis){
+        this._analizis = analizis
     }
 
     get analizis(){
