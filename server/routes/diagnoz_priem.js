@@ -5,6 +5,6 @@ const checkRole = require('../middleware/checkRoleMiddleware')
 
 router.post('/', diagnozPriemController.create)
 router.get('/', diagnozPriemController.getAll)
-router.get('/:MedKartId', diagnozPriemController.getAllId)
+router.get('/:DiagnosisId', diagnozPriemController.getAllId)
 
 module.exports = router

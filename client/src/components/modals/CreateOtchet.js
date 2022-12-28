@@ -12,6 +12,8 @@ import {fetchOnePreparat} from "../../http/preparatAPI";
 import {createPreparat_diagnoses} from "../../http/preparat_diagnosesAPI";
 import {login} from "../../http/userAPI";
 import {createDiagnosis_priem} from "../../http/diagnoz_priemAPI";
+import {createAnalizi_priem} from "../../http/analizi_priemAPI";
+import {fetchAnalizi_zapic} from "../../http/analizi_zapicAPI";
 
 const CreateGorod = ({show, onHide}) => {
     const {zapic} = useContext(Context)
@@ -32,8 +34,14 @@ const CreateGorod = ({show, onHide}) => {
             formData.append('stepen_boli', stepen_boli)
             formData.append('name', name)
             formData.append('img', file)
+
             let diagnosis = await createDiagnosis(formData)
             let priem = await createPriem(zapic.date, zapic.pacientid, zapic.doctorid)
+            fetchAnalizi_zapic(zapic.id).then(data => {
+                for (let i = 0; i < data.length; i++){
+                    createAnalizi_priem(data[i].AnalyAsisId, priem.id)
+                }
+            })
             await createDiagnosis_priem(diagnosis.id, priem.id)
             for (let i = 0; i < preparat.preps1.length; i++) {
                 let preparatd = await fetchOnePreparat(preparat.preps1[i])
@@ -46,6 +54,7 @@ const CreateGorod = ({show, onHide}) => {
             let kart = await fetchOneKartPacId(zapic.pacientid)
             await createDiagnosis_kart(zapic.date, kart.id, diagnosis.id)
             alert('Вы успешно добавили отчет')
+
             await cancelZapis(zapic.id)
             setFile(null)
             setStepen_boli(0)

@@ -12,12 +12,12 @@ export const fetchPriem = async () => {
 
 }
 
-export const fetchOnePriem = async (name) => {
-    const {data} = await $host.get('api/priem/' + name)
+export const fetchOnePriemPac = async (PacientId) => {
+    const {data} = await $host.get('api/priem/pac/' + PacientId)
     return data
 }
 
-export const fetchOnePriemId = async (id) => {
-    const {data} = await $host.get('api/priem/id/' + id)
+export const fetchOnePriemId = async (DoctorId) => {
+    const {data} = await $host.get('api/priem/' + DoctorId)
     return data
 }

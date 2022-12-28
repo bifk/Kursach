@@ -4,15 +4,17 @@ import {Context} from "../index";
 import {Row} from "react-bootstrap";
 import OtdelenieItem from "./OtdelenieItem";
 import DoctorItem from "./DoctorItem";
+import AnaliziItem from "./AnaliziItem";
 
 
-const DoctorsList =  observer( () => {
-    const {vrach} = useContext(Context)
+const AnaliziList =  observer( () => {
+    const {analizi} = useContext(Context)
+
 
     return (
         <Row style={{ overflowY:'auto', height: 700}} className="d-flex">
-            {vrach.doctors.map(vrach =>
-                    <DoctorItem key={vrach.id} vrach1={vrach}/>
+            {analizi.analizis.map(analizi =>
+                <AnaliziItem key={analizi.id} analizi1={analizi}/>
 
             )}
 
@@ -21,4 +23,4 @@ const DoctorsList =  observer( () => {
 
 })
 
-export default DoctorsList
+export default AnaliziList

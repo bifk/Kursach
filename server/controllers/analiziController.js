@@ -22,13 +22,19 @@ class AnaliziController{
         return res.json(Analizis)
     }
 
+    async getAllId(req, res) {
+        const {id} = req.params
+        const Analizis = await analizi.findAll({
+            where: {id},
+        })
+
+        return res.json(Analizis)
+    }
+
 
     async change(req, res){
-        const {id ,results} = req.params
-        const Analizis = await analizi.update({
-            where: id,
-            results: results
-        })
+        const {id ,results} = req.body
+        const Analizis = await analizi.update({ results: results }, { where: {id: id}})
         return res.json(Analizis)
     }
 }

@@ -27,7 +27,6 @@ const Admin = () => {
             <Button onClick={() => setdolznostVisible(true)} className="mt-4" variant="outline-dark">Добавить должность</Button>
             <Button onClick={() => setplataVisible(true)} className="mt-4" variant="outline-dark">Добавить платную услугу</Button>
             <Button onClick={() => setgorodVilible(true)} className="mt-4" variant="outline-dark">Добавить город</Button>
-            <Button onClick={() => setulicaVisible(true)} className="mt-4" variant="outline-dark">Добавить улицу</Button>
 
             <CreateDolznost show={dolznostVisible} onHide={() => setdolznostVisible(false)}/>
             <CreatePlata show={plataVisible} onHide={() => setplataVisible(false)}/>
@@ -35,7 +34,6 @@ const Admin = () => {
             <CreatePreparat show={preparatVisible} onHide={() => setpreparatVisible(false)}/>
             <CreateRaspisanie show={raspisanieVisible} onHide={() => setRaspisanieVisible(false)}/>
             <CreateGorod show={gorodVisible} onHide={() => setgorodVilible(false)}/>
-            <CreateUlica show={ulicaVisible} onHide={() => setulicaVisible(false)}/>
 
 
 

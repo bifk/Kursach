@@ -6,12 +6,17 @@ export const createAnalizi = async (type) => {
     return data
 }
 
-export const update = async (MedKartId, results) => {
-    const {data} = await $host.put('api/analizi/', {MedKartId, results})
+export const updateAnalizi = async (id, results) => {
+    const {data} = await $host.put('api/analizi/', {id, results})
     return data
 }
 
 export const fetchAnalizi = async (id) => {
     const {data} = await $host.get('api/analizi/id/' + id)
+    return data
+}
+
+export const fetchAnaliziAll = async (id) => {
+    const {data} = await $host.get('api/analizi/all/' + id)
     return data
 }

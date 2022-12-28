@@ -14,6 +14,8 @@ import PlataStore from "./store/plataStore";
 import ZapicStore from "./store/zapicStore";
 import PreparatStore from "./store/preparatStore";
 import DiagnozStore from "./store/diagnozStore";
+import PriemStore from "./store/priemStore";
+import AnaliziStore from "./store/analiziStore";
 
 export const Context = createContext(null)
 
@@ -31,7 +33,9 @@ ReactDOM.render(
         plata: new PlataStore(),
         zapic: new ZapicStore(),
         preparat: new PreparatStore(),
-        diagnoz: new DiagnozStore()
+        diagnoz: new DiagnozStore(),
+        priem: new PriemStore(),
+        analizi: new AnaliziStore()
     }}>
         <App />
     </Context.Provider>,

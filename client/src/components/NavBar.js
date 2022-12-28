@@ -4,8 +4,8 @@ import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar";
 import {useHistory} from "react-router-dom";
 import {
-    ADMIN_ROUTE,
-    CONTACTS_ROUTE,
+    ADMIN_ROUTE, ANALIZI_ROUTE,
+    CONTACTS_ROUTE, DOCTOR_MANAGE_ROUTE,
     HOSPITAL_ROUTE, KARTA_ROUTE, LOGIN_ROUTE,
     OTDELENIE_ROUTE, PACIENT_ROUTE, PAYED_ROUTE, PLATA_ROUTE, VRACH_ROUTE,
     ZAPIC_ROUTE,
@@ -27,6 +27,7 @@ import {fetchUser} from "../http/userAPI";
 import {fetchAdressId} from "../http/adressAPI";
 import {fetchPacient} from "../http/pacientAPI";
 import {fetchPreparat} from "../http/preparatAPI";
+import {fetchOneKartPacId} from "../http/medKartAPI";
 
 
 const NavBar = observer(() => {
@@ -123,6 +124,10 @@ const NavBar = observer(() => {
            case 'pacient':
                fetchPacient(userC).then(data => {
                    setPac(data)
+                   fetchOneKartPacId(data.id).then(data => {
+                       console.log(data.date)
+                       pacient.setMedKartId(data.date)
+                   })
                })
                break
            case 'vrach':
@@ -159,10 +164,10 @@ const NavBar = observer(() => {
             {user.isAuth ?
                 <Nav className="ms-auto" style={{color: 'white'}}>
 
-                    <NavLink className="mt-2 me-5" style={{color:'white', textDecoration: 'none'}} to={ZAPIC_ROUTE}>
+                    {user.therole === 'pacient' ? <NavLink className="mt-2 me-5" style={{color:'white', textDecoration: 'none'}} to={ZAPIC_ROUTE}>
                         <Image style={{maxWidth: 30, maxHeight: 30}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHiR8f90gflamhFIlzd2sCuEyBy3_wUInPpSBDEPkAZSBHBjM9sdrcrZjPUaqAd4B5yi0&usqp=CAU"
                                className="me-1"
-                    ></Image>Запись к врачу</NavLink>
+                    ></Image>Запись к врачу</NavLink> : ''}
 
                     {/*<NavLink className="mt-2 me-5" style={{color:'white', textDecoration: 'none'}} to={DOCTORS_ROUTE}>
                         <Image style={{maxWidth: 30, maxHeight: 30}} src="https://imageup.ru/img279/4114304/bez-nazvaniia.png"
@@ -180,10 +185,10 @@ const NavBar = observer(() => {
                                className="me-1"
                     ></Image>Контакты</NavLink>
 
-                    <NavLink className="mt-2 me-5" style={{color:'white', textDecoration: 'none'}} to={PLATA_ROUTE}>
+                    {user.therole === 'pacient' ? <NavLink className="mt-2 me-5" style={{color:'white', textDecoration: 'none'}} to={PLATA_ROUTE}>
                         <Image style={{maxWidth: 30, maxHeight: 30}} src="https://imageup.ru/img217/4114325/1200px-russian_rouble_sign_pt_serif_1000svg.png"
                                className="me-1"
-                        ></Image>Платные услуги</NavLink>
+                        ></Image>Платные услуги</NavLink> : ''}
 
                     <Image style={{maxWidth: 30, maxHeight: 30}} src="https://imageup.ru/img283/4114334/bez-nazvaniia-2.png"
                            className="mt-2 "
@@ -191,40 +196,27 @@ const NavBar = observer(() => {
 
                     {user.therole === 'vrach' || user.therole==='pacient' ? <Dropdown.Item onClick={() => {history.push(user.therole === 'vrach' ? VRACH_ROUTE : PACIENT_ROUTE)}}>Личная информация</Dropdown.Item> : ''}
                     {user.therole === 'pacient' ? <Dropdown.Item onClick={() => history.push(KARTA_ROUTE)}>Мед. Карта</Dropdown.Item> : ''}
-                        <Dropdown.Item onClick={() => history.push(ZAPISI_ROUTE)}>Записи</Dropdown.Item>
+                    {user.therole === 'pacient' ? <Dropdown.Item onClick={() => history.push(ANALIZI_ROUTE)}>Анализы</Dropdown.Item> : ''}
+                    {user.therole === 'vrach' || user.therole==='pacient' ? <Dropdown.Item onClick={() => history.push(ZAPISI_ROUTE)}>Записи</Dropdown.Item> : ''}
                     {user.therole === 'pacient' ? <Dropdown.Item onClick={() => history.push(PAYED_ROUTE)}>Купленные услуги</Dropdown.Item> : ''}
                     {user.therole === 'ADMIN' ? <Dropdown.Item onClick={() => history.push(ADMIN_ROUTE)}>Админ панель</Dropdown.Item> : ''}
+                    {user.therole === 'ADMIN' ? <Dropdown.Item onClick={() => history.push(DOCTOR_MANAGE_ROUTE)}>Управление врачами</Dropdown.Item> : ''}
 
                         <Dropdown.Item onClick={() => logOut()}>Выйти</Dropdown.Item>
                     </DropdownButton>
                 </Nav>
                 :
                 <Nav className="ms-auto" style={{color: 'white'}}>
-                    <NavLink className="mt-2 me-5" style={{color:'white', textDecoration: 'none'}} to={ZAPIC_ROUTE}>
-                        <Image style={{maxWidth: 30, maxHeight: 30}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHiR8f90gflamhFIlzd2sCuEyBy3_wUInPpSBDEPkAZSBHBjM9sdrcrZjPUaqAd4B5yi0&usqp=CAU"
-                               className="me-1"
-                        ></Image>Запись к врачу</NavLink>
-
-                   {/* <NavLink className="mt-2 me-5" style={{color:'white', textDecoration: 'none'}} to={DOCTORS_ROUTE}>
-                        <Image style={{maxWidth: 30, maxHeight: 30}} src="https://imageup.ru/img279/4114304/bez-nazvaniia.png"
-                               className="me-1"
-                        ></Image>
-                        Персонал</NavLink>*/}
-
                     <NavLink className="mt-2 me-5" style={{color:'white', textDecoration: 'none'}} to={OTDELENIE_ROUTE}>
                         <Image style={{maxWidth: 30, maxHeight: 30}} src="https://imageup.ru/img155/4114315/pngtree-hospital-icon-vector-png-image_1768115.jpg"
                                className="me-1"
                         ></Image>Отделения</NavLink>
-
                     <NavLink className="mt-2 me-5" style={{color:'white', textDecoration: 'none'}} to={CONTACTS_ROUTE}>
                         <Image style={{maxWidth: 30, maxHeight: 30}} src="https://imageup.ru/img134/4114309/bez-nazvaniia-1.png"
                                className="me-1"
                         ></Image>Контакты</NavLink>
 
-                    <NavLink className="mt-2 me-5" style={{color:'white', textDecoration: 'none'}} to={PLATA_ROUTE}>
-                        <Image style={{maxWidth: 30, maxHeight: 30}} src="https://imageup.ru/img217/4114325/1200px-russian_rouble_sign_pt_serif_1000svg.png"
-                               className="me-1"
-                        ></Image>Платные услуги</NavLink>
+
                     <Button variant={"outline-light"} onClick={() => history.push(LOGIN_ROUTE)}>Авторизация</Button>
                 </Nav>
             }

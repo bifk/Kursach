@@ -20,7 +20,7 @@ import CreateAdress from "../components/modals/CreateAdress";
 import {fetchOneGorodId, fetchOneGorodN} from "../http/gorodAPI";
 import {createUlica, fetchOneUlicaId, fetchOneUlicaN} from "../http/ulicaAPI";
 import {checkAdress, createAdress, fetchAdressId} from "../http/adressAPI";
-import {createKart} from "../http/medKartAPI";
+import {createKart, fetchOneKartPacId} from "../http/medKartAPI";
 import JsCookie from "js-cookie";
 import jsCookie from "js-cookie";
 
@@ -110,7 +110,6 @@ const Auth = observer(() => {
     }
 
     const theVrach = async (data) => {
-
         await console.log(dol)
         await console.log(otd)
         data1 = await createVrach(familia, imya, otchestvo, nomer_telefona, cabinet, email, dol, otd, data.id)
@@ -139,6 +138,7 @@ const Auth = observer(() => {
 
         data1 = await  createPacient(familia, imya, otchestvo, nomer_polisa, dob, nomer_telefona, email, adress.id)
         let kart = await createKart(new Date(Date.now()).toISOString(), data1.id)
+        await pacient.setMedKartId(kart.id)
         await setPac(data1)
     }
 
@@ -163,12 +163,20 @@ const Auth = observer(() => {
                 data = await login(email, password)
                     user.setRole(data.role)
                 if (data.role === 'pacient'){
-                    fetchPacient(email).then(data => {setPac(data)})
+                    fetchPacient(email).then(data => {
+                        setPac(data)
+                        fetchOneKartPacId(data.id).then(data => {
+                            console.log(data.date)
+                            pacient.setMedKartId(data.date)
+                        })
+                    })
+
 
                 } else if (data.role === 'vrach'){
                     fetchVrach(email).then(data => setVrach(data))
                 }
                 jsCookie.set("email", email)
+                alert('Вы успешно вошли')
             } else {
 
                 if (isVrach) {
@@ -202,6 +210,7 @@ const Auth = observer(() => {
                     }
                 }
                 data = await registration(email, password, isVrach ? 'vrach' : 'pacient')
+                alert('Вы успешно зарегестрировались')
                 jsCookie.set("email", email)
             }
 

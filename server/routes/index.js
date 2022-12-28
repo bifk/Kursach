@@ -21,8 +21,9 @@ const plataRouter = require('./plata')
 const plata_pacientRouter = require('./plata_pacient')
 const diagnosis_kartRouter = require('./diagnosis_kart')
 const preparat_diagnosesRouter = require('./preparat_diagnoses')
-const analizi_kart_zapicRouter = require('./analizi_kart_zapic')
+const analizi_zapicRouter = require('./analizi_zapic')
 const diagnoz_priemRouter = require('./diagnoz_priem')
+const analizi_priemRouter = require('./analizi_priem')
 
 
 router.use('/pacient', pacientRouter)
@@ -45,7 +46,8 @@ router.use('/plata', plataRouter)
 router.use('/plata_pacient', plata_pacientRouter)
 router.use('/diagnosis_kart', diagnosis_kartRouter)
 router.use('/preparat_diagnoses', preparat_diagnosesRouter)
-router.use('/analizi_kart_zapic', analizi_kart_zapicRouter)
+router.use('/analizi_zapic', analizi_zapicRouter)
 router.use('/diagnoz_priem', diagnoz_priemRouter)
+router.use('/analizi_priem', analizi_priemRouter)
 
 module.exports = router

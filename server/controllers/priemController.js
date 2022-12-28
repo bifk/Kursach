@@ -13,8 +13,20 @@ class PriemController {
         return res.json(priems)
     }
 
-    async getOne(req, res) {
+    async getAllId(req, res) {
+        const {DoctorId} = req.params
+        const priems = await priem.findAll({
+            where: {DoctorId}
+        })
+        return res.json(priems)
+    }
 
+    async getAllPac(req, res) {
+        const {PacientId} = req.params
+        const priems = await priem.findAll({
+            where: {PacientId}
+        })
+        return res.json(priems)
     }
 }
 

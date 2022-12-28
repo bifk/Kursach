@@ -10,6 +10,7 @@ import {fetchOneRaspisanieId} from "../http/raspisanieAPI";
 import CreateZapic from "./modals/CreateZapic";
 import {Context} from "../index";
 import {cancelZapis, fetchZapisiPac, fetchZapisiVrach} from "../http/zapicAPI";
+import CreateAnalizi from "./modals/CreateAnalizi";
 
 
 const ZapisiItem = ({zapic1}) => {
@@ -24,6 +25,8 @@ const ZapisiItem = ({zapic1}) => {
     const [nomer, setNomer] = useState('')
     const [date, setDate] = useState(5)
     const [time, setTime] = useState()
+    const [analiziVisible, setAnaliziVisible] = useState(false)
+    const [dol, setDol] = useState('')
 
 
     const cancelZapic = async () => {
@@ -41,6 +44,9 @@ const ZapisiItem = ({zapic1}) => {
         setImya(data.imya)
         setOtchestvo(data.otchestvo)
         setNomer(data.nomer_telefona)
+        fetchOneDolznostId(data.PositionId).then(data1 =>{
+            setDol(data1.name)
+        })
     }
     useEffect(() => {
 
@@ -63,19 +69,32 @@ const ZapisiItem = ({zapic1}) => {
                         Дата записи: {date}<br/>
                         Время записи: {time}<br/>
                         Врач: {familia + ' ' + imya + ' ' + otchestvo}<br/>
+                        Должность: {dol}<br/>
                         Номер телефона врача: {nomer}<br/>
                         Кабинет: {cabinet}
 
                     </div>
 
                 </div>
-                <div></div>
+                <div className="ms-auto">
+                <Button
+                    className="ms-auto me-3 mb-4"
+                    variant={"outline-info"}
+                    style={{width: 300}}
+                    onClick={() => {
+                        zapic.setId(zapic1.id)
+                        zapic.setPacientId(zapic1.PacientId);
+                        zapic.setDoctorId(zapic1.DoctorId);
+                        setAnaliziVisible(true);
+                    }}
+                >Сдать анализы</Button>
                 <Button
                     className="ms-auto me-3 mb-4"
                     variant={"outline-danger"}
                     style={{width: 300}}
                     onClick={cancelZapic}
-                >Отменить запись</Button>
+                >Отменить запись</Button></div>
+                <CreateAnalizi show={analiziVisible} onHide={() => setAnaliziVisible(false)} />
             </Card><br/>
         </Container>
     );

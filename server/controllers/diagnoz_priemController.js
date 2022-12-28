@@ -21,9 +21,9 @@ class Diagnoz_priemController {
     }
 
     async getAllId(req, res) {
-        const {MedKartId} = req.params
+        const {DiagnosisId} = req.params
         const Diagnoz_priem = await diagnoz_priem.findAll({
-            where: {MedKartId},
+            where: {DiagnosisId},
         })
 
         return res.json(Diagnoz_priem)

@@ -19,16 +19,14 @@ const PayedList = observer(() => {
             fetchOnePlataId(data[i].PayFunctionId).then(data => {
                 plata.setPayed(data, i)
 
-                setIsLoading(true)
+
                 console.log(data + ' ' + isLoading)
             })
         }
     })
+        setIsLoading(true)
     }, [])
 
-    useEffect(() =>{
-        setIsLoading(false)
-    }, [])
     if (isLoading)
         return (
 

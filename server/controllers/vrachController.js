@@ -1,4 +1,4 @@
-const {vrach, pacient} = require("../models/models");
+const {vrach, pacient, analizi} = require("../models/models");
 
 class VrachController {
 
@@ -29,6 +29,18 @@ class VrachController {
         })
 
         return res.json(Vrach)
+    }
+
+    async changeDol(req, res){
+        const {id, PositionId} = req.body
+        const vraches = await vrach.update({ PositionId: PositionId }, { where: {id: id} })
+        return res.json(vraches)
+    }
+
+    async changeRas(req, res){
+        const {id, SheduleId} = req.body
+        const vraches = await vrach.update({ SheduleId: SheduleId }, { where: {id: id} })
+        return res.json(vraches)
     }
 }
 

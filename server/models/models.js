@@ -11,15 +11,15 @@ const pacient = sequelize.define('Pacient', {
     otchestvo: {type: DataTypes.STRING},
     nomer_polisa: {type: DataTypes.STRING, unique: true, allowNull: false},
     dob: {type: DataTypes.DATEONLY, allowNull: false}, //Дата рождения
-    nomer_telefona: {type: DataTypes.STRING, allowNull: false},
+    nomer_telefona: {type: DataTypes.STRING, unique:true},
     email: {type: DataTypes.STRING, unique: true},
 
 })
 
 const user = sequelize.define('User', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    email: {type: DataTypes.STRING, unique: true},
-    password: {type: DataTypes.STRING},
+    email: {type: DataTypes.STRING, unique: true, allowNull:false},
+    password: {type: DataTypes.STRING, allowNull:false},
     role: {type: DataTypes.STRING, defaultValue: "pacient"}
 })
 
@@ -31,12 +31,12 @@ const mesto_jitelstva = sequelize.define('Adress', {
 
 const gorod = sequelize.define('City', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    nazvanie: {type: DataTypes.STRING, allowNull: false}
+    nazvanie: {type: DataTypes.STRING, unique:true, allowNull: false}
 })
 
 const ulica = sequelize.define('Street', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    nazvanie: {type: DataTypes.STRING, allowNull: false}
+    nazvanie: {type: DataTypes.STRING, unique:true, allowNull: false}
 })
 
 const analizi = sequelize.define('Analyses',{
@@ -54,44 +54,44 @@ const zapic = sequelize.define('Zapic',{
 
 const vrach = sequelize.define('Doctor', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    email: {type: DataTypes.STRING, unique: true},
+    email: {type: DataTypes.STRING, allowNull:false, unique: true},
     familia: {type: DataTypes.STRING, allowNull: false},
     imya: {type: DataTypes.STRING, allowNull: false},
     otchestvo: {type: DataTypes.STRING},
     nomer_telefona: {type: DataTypes.STRING},
-    cabinet: {type: DataTypes.INTEGER}
+    cabinet: {type: DataTypes.INTEGER, allowNull: false}
 })
 
 const raspisanie = sequelize.define('Shedule', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    den:{type: DataTypes.STRING},
-    time: {type: DataTypes.STRING}
+    den:{type: DataTypes.STRING, allowNull: false},
+    time: {type: DataTypes.STRING, allowNUll: false}
 })
 
 const otdelenie = sequelize.define('Department', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING},
-    corpus: {type: DataTypes.INTEGER},
-    zaved: {type: DataTypes.STRING}
+    name: {type: DataTypes.STRING, allowNull:false},
+    corpus: {type: DataTypes.INTEGER, allowNull:false},
+    zaved: {type: DataTypes.STRING, allowNull:false}
 })
 
 const dolznost = sequelize.define('Position', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING},
-    salary: {type: DataTypes.INTEGER}
+    name: {type: DataTypes.STRING, unique:true, allowNull:false},
+    salary: {type: DataTypes.INTEGER, allowNull: false}
 })
 
 const platnaia_usluga = sequelize.define('Pay_function', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING},
+    name: {type: DataTypes.STRING, unique:true, allowNull:false},
     description: {type: DataTypes.STRING},
-    price: {type: DataTypes.INTEGER}
+    price: {type: DataTypes.INTEGER, allowNull:false}
 })
 
 const diagnoz = sequelize.define('Diagnosis', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    stepen_boli: {type: DataTypes.INTEGER},
-    name: {type: DataTypes.STRING},
+    stepen_boli: {type: DataTypes.INTEGER, allowNull: false},
+    name: {type: DataTypes.STRING, allowNull: false},
     img: {type: DataTypes.STRING}
 })
 
@@ -111,8 +111,8 @@ const diagnoz_priem = sequelize.define('Diagnosis_priem', {
 
 const preparat = sequelize.define('Preparat', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    isRecipe: {type: DataTypes.BOOLEAN},
-    name: {type: DataTypes.STRING, allowNull: false}
+    isRecipe: {type: DataTypes.BOOLEAN, allowNull: false},
+    name: {type: DataTypes.STRING, unique:true, allowNull: false}
 })
 
 const med_kartochka = sequelize.define('Med_kart', {
@@ -128,18 +128,19 @@ const plata_pacient = sequelize.define('PayFunction_pacient',{
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 })
 
-const analizi_kart_zapic = sequelize.define('Analizi_kart_zapic', {
+const analizi_zapic = sequelize.define('Analizi_zapic', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 })
 
+const analizi_priem = sequelize.define('Analizi_priem', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+})
 
+analizi.belongsToMany(priem, {through: analizi_priem})
+priem.belongsToMany(analizi, {through: analizi_priem})
 
-med_kartochka.belongsToMany(analizi, {through: analizi_kart_zapic})
-analizi.belongsToMany(med_kartochka, {through: analizi_kart_zapic})
-analizi.belongsToMany(zapic, {through: analizi_kart_zapic})
-med_kartochka.belongsToMany(zapic, {through: analizi_kart_zapic})
-zapic.belongsToMany(med_kartochka, {through: analizi_kart_zapic})
-zapic.belongsToMany(analizi, {through: analizi_kart_zapic})
+analizi.belongsToMany(zapic, {through: analizi_zapic})
+zapic.belongsToMany(analizi, {through: analizi_zapic})
 
 
 gorod.hasMany(mesto_jitelstva)
@@ -211,5 +212,6 @@ module.exports = {
     med_kartochka,
     preparat_diagnoz,
     plata_pacient,
-    analizi_kart_zapic
+    analizi_zapic,
+    analizi_priem
 }

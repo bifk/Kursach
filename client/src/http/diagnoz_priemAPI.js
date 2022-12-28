@@ -16,8 +16,8 @@ export const fetchDiagnosis_priem = async () => {
 
 }
 
-export const fetchAllDiagnosis_priemMed = async (MedKartId) => {
-    const {data} = await $host.get('api/diagnoz_priem/' + MedKartId)
+export const fetchAllDiagnosis_priemDiag = async (DiagnosisId) => {
+    const {data} = await $host.get('api/diagnoz_priem/' + DiagnosisId)
     return data
 }
 

@@ -11,7 +11,8 @@ import {
     CONTACTS_ROUTE,
     ZAPIC_ROUTE,
     VRACH_ROUTE,
-    OTDELENIE_ROUTE, PLATA_ROUTE, PAYED_ROUTE
+    OTDELENIE_ROUTE, PLATA_ROUTE, PAYED_ROUTE,
+    DOCTOR_MANAGE_ROUTE, ANALIZI_ROUTE
 } from "./utils/consts";
 import Hospital from "./pages/Hospital";
 import Auth from "./pages/Auth";
@@ -25,11 +26,21 @@ import Vrach from "./pages/Vrach";
 import Otdelenie from "./pages/Otdelenie";
 import Plata from "./pages/Plata";
 import Payed from "./pages/Payed";
+import Manage from "./pages/Manage"
+import Analizi from "./pages/Analizi";
 
 export  const authRoutes = [
     {
         path: ADMIN_ROUTE,
         Component: Admin
+    },
+    {
+        path: ANALIZI_ROUTE,
+        Component: Analizi
+    },
+    {
+        path: DOCTOR_MANAGE_ROUTE,
+        Component: Manage
     },
     {
         path: PACIENT_ROUTE,

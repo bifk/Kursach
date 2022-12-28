@@ -15,12 +15,15 @@ import CreateOtchet from "./modals/CreateOtchet";
 import CreateAnalizi from "./modals/CreateAnalizi";
 import {fetchAnalizi} from "../http/analiziAPI";
 import {fetchOneKartPacId} from "../http/medKartAPI";
+import {fetchAnalizi_zapic} from "../http/analizi_zapicAPI";
+import ShowAnalizi from "./modals/ShowAnalizi";
 
 
 const ZapisiVrachItem = ({zapic1}) => {
     const {vrach} = useContext(Context)
     const {pacient} = useContext(Context)
     const {user} = useContext(Context)
+    const {analizi} = useContext(Context)
     const {zapic} = useContext(Context)
     const [familia, setFamilia] = useState('')
     const [imya, setImya] = useState('')
@@ -30,12 +33,10 @@ const ZapisiVrachItem = ({zapic1}) => {
     const [time, setTime] = useState()
     const [otchetVisible, setotchetVisible] = useState(false)
     const [analiziVisible, setAnaliziVisible] = useState(false)
+    const [dataLength, setDataLength] = useState(0)
+    const [isLoading, setIsloading] = useState(false)
 
 
-    const cancelZapic = async () => {
-
-    }
-    let analizi
     const setPacient = async (data) => {
         setFamilia(data.familia);
         setImya(data.imya)
@@ -50,6 +51,19 @@ const ZapisiVrachItem = ({zapic1}) => {
             let partsT = zapic1.time.toString().split(':')
             setDate(partsD[2] + '.' + partsD[1] + '.' + partsD[0])
             setTime(partsT[0] + ':' + partsT[1])
+        })
+
+        fetchAnalizi_zapic(zapic1.id).then(data => {
+            setDataLength(data.length)
+            for (let i = 0; i < data.length; i++){
+                fetchAnalizi(data[i].AnalyAsisId).then(data1 => {
+                    analizi.setAnalizis(data1, i)
+                })
+            }
+
+
+
+            setIsloading(true)
         })
     }, [])
 
@@ -67,17 +81,18 @@ const ZapisiVrachItem = ({zapic1}) => {
 
                 </div>
                 <div className="ms-auto mt-3">
-                    <Button
-                    className="ms-auto me-3 mb-4"
-                    variant={"outline-info"}
-                    style={{width: 300}}
-                    onClick={() => {
-                        zapic.setId(zapic1.id)
-                        zapic.setPacientId(zapic1.PacientId);
-                        zapic.setDoctorId(zapic1.DoctorId);
-                        setAnaliziVisible(true);
-                    }}
-                >Назначить анализы</Button>
+                    {dataLength !== 0 ? <Button
+                        className="ms-auto me-3 mb-4"
+                        variant={"outline-info"}
+                        style={{width: 300}}
+                        onClick={() => {
+                            setAnaliziVisible(true);
+                            zapic.setDat(zapic1.date);
+                            zapic.setId(zapic1.id)
+                            zapic.setPacientId(zapic1.PacientId);
+                            zapic.setDoctorId(zapic1.DoctorId)
+                        }}
+                    >Сделать отчет по анализам</Button> : '' }
                 <Button
                     className="ms-auto me-3 mb-4"
                     variant={"outline-info"}
@@ -92,7 +107,8 @@ const ZapisiVrachItem = ({zapic1}) => {
                 >Сделать отчет</Button></div>
             </Card><br/>
             <CreateOtchet show={otchetVisible} onHide={() => setotchetVisible(false)} />
-            <CreateAnalizi show={analiziVisible} onHide={() => setAnaliziVisible(false)} />
+            {isLoading ? <ShowAnalizi show={analiziVisible} onHide={() => setAnaliziVisible(false)} />: ''}
+
         </Container>
     );
 };

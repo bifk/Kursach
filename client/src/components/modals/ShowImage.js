@@ -16,7 +16,9 @@ const ShowImage = ({show, onHide}) => {
             <Modal.Header closeButton>
             </Modal.Header>
             <Modal.Body>
-                <Image src={'http://localhost:5000/' + diagnoz.img} />
+
+                <Image style={{minWidth: 500, minHeight: 500, maxHeight: 700, maxWidth: 750}} src={'http://localhost:5000/' + diagnoz.img} />
+
             </Modal.Body>
 
         </Modal>

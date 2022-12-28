@@ -4,7 +4,7 @@ import {createGorod} from "../../http/gorodAPI";
 import {createAnalizi} from "../../http/analiziAPI";
 import {fetchOneKartPacId} from "../../http/medKartAPI";
 import {Context} from "../../index";
-import {createAnalizi_kart_zapic} from "../../http/analizi_kart_zapicAPI";
+import {createAnalizi_zapic} from "../../http/analizi_zapicAPI";
 
 const CreateAnalizi = ({show, onHide}) => {
     const {zapic} = useContext(Context)
@@ -13,10 +13,9 @@ const CreateAnalizi = ({show, onHide}) => {
 
 
     const addAnalizi = async () => {
-        let kart = await fetchOneKartPacId(zapic.pacientid)
         let analizi = await createAnalizi(type)
-        await createAnalizi_kart_zapic(kart.id, analizi.id, zapic.id)
-        alert('Вы успешно назначили анализы')
+        await createAnalizi_zapic( analizi.id, zapic.id)
+        alert('Вы успешно сдали анализы')
         setType('')
         onHide()
     }
@@ -32,7 +31,7 @@ const CreateAnalizi = ({show, onHide}) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Добавить отделение
+                    Сдать анализы
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

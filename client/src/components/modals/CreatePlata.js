@@ -1,15 +1,18 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
 import {createPlata} from "../../http/plataAPI";
+import {Context} from "../../index";
 
 const CreatePlata = ({show, onHide}) => {
 
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState('')
+    const {user} = useContext(Context)
 
 
     const addPlata = () => {
+        console.log(user.therole)
         createPlata({name, price, description}).then(data => {
             alert('Платная услуга успешно добавлена')
             setName('')

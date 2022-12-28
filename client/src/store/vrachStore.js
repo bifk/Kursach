@@ -13,6 +13,7 @@ export default class VrachStore {
         this._raspisanie = {}
         this._email = {}
         this._cabinet ={}
+        this._time = {}
         makeAutoObservable(this)
     }
 
@@ -23,6 +24,14 @@ export default class VrachStore {
 
     get id(){
         return this._id
+    }
+
+    setTime(time){
+        this._time = time
+    }
+
+    get time(){
+        return this._time
     }
 
     setCabinet(cabinet){
